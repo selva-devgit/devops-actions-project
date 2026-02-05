@@ -1,14 +1,4 @@
-Got it ✅ — you want a sample HTML page that demonstrates a GitHub Actions build trigger.
-Since HTML alone can’t trigger a GitHub Actions workflow directly (it’s triggered by pushes, PRs, or API calls), we can simulate the concept by:
-
-Creating a simple HTML page that displays a “Build Triggered” message.
-Hosting it on GitHub Pages.
-Using GitHub Actions to automatically rebuild and deploy it whenever you push changes.
-
-Here’s a minimal runnable example:
-
-1. HTML Page (index.html)
-Html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,47 +34,3 @@ Html<!DOCTYPE html>
     </script>
 </body>
 </html>
-
-
-2. GitHub Actions Workflow (.github/workflows/deploy.yml)
-This workflow will:
-
-Run on every push to main
-Deploy the HTML to GitHub Pages
-
-Yamlname: Deploy HTML to GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-
-
-3. How It Works
-
-Push a change to index.html (e.g., update text or timestamp).
-GitHub Actions detects the push and runs the workflow.
-The workflow deploys the updated HTML to GitHub Pages.
-When you visit your site, you’ll see the updated “Build Triggered” time.
-
-
-If you want, I can also add a Node.js script that automatically updates the timestamp in the HTML before deployment so every build shows the exact GitHub Actions run time instead of the browser time.
-Do you want me to add that automation? That would make the build trigger visibly tied to the GitHub Actions run.
