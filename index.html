@@ -1,0 +1,90 @@
+Got it ✅ — you want a sample HTML page that demonstrates a GitHub Actions build trigger.
+Since HTML alone can’t trigger a GitHub Actions workflow directly (it’s triggered by pushes, PRs, or API calls), we can simulate the concept by:
+
+Creating a simple HTML page that displays a “Build Triggered” message.
+Hosting it on GitHub Pages.
+Using GitHub Actions to automatically rebuild and deploy it whenever you push changes.
+
+Here’s a minimal runnable example:
+
+1. HTML Page (index.html)
+Html<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Actions Build Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .status {
+            background: #222;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 GitHub Actions Build Trigger Demo</h1>
+    <p>This page is automatically rebuilt and deployed using <strong>GitHub Actions</strong>.</p>
+    <div class="status">
+        ✅ Build Triggered on: <span id="build-time"></span>
+    </div>
+
+    <script>
+        // Display the last build time (generated dynamically)
+        document.getElementById("build-time").textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
+
+
+2. GitHub Actions Workflow (.github/workflows/deploy.yml)
+This workflow will:
+
+Run on every push to main
+Deploy the HTML to GitHub Pages
+
+Yamlname: Deploy HTML to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+
+3. How It Works
+
+Push a change to index.html (e.g., update text or timestamp).
+GitHub Actions detects the push and runs the workflow.
+The workflow deploys the updated HTML to GitHub Pages.
+When you visit your site, you’ll see the updated “Build Triggered” time.
+
+
+If you want, I can also add a Node.js script that automatically updates the timestamp in the HTML before deployment so every build shows the exact GitHub Actions run time instead of the browser time.
+Do you want me to add that automation? That would make the build trigger visibly tied to the GitHub Actions run.
